@@ -1,6 +1,5 @@
 const express = require("express");
 const request = require("request");
-const axios = require("axios")
 const app = express();
 
 app.use(express.static('public'))
@@ -16,23 +15,23 @@ app.get("/", function(req, res) {
     let times = Math.random() * 6 + 4
     const func = () => ret = ret + Math.random().toString(36).substr(2, 5);
     Array.from({ length: times }, () => func());
-    console.log(ret)
-    res.json({
+    res.status(404).json({
         req: ret,
-        message: "nothing's currently here right now, try again later."
+        message: "Error 404"
     })
 })
 
 app.use("/raw", function(req, res) {
     let url = req.query.url;
+    let pcode = req.query.code;
     let code;
     try{
-    let buff = Buffer.from(data, 'base64');
+    let buff = Buffer.from(pcode, 'base64');
     code = buff.toString('utf-8');
-    }catch{return res.send(401, "I hate you.")}
+    }catch{return res.status(401).send("I hate you.")}
 
-    if (!isValidURL) return res.send(401, "Not allow.")
-    if (!url.includes(code)) return res.send(401, "Unauthorize")
+    if (!isValidURL) return res.status(401).send("Not allow.")
+    if (!url.includes(code)) return res.status(401).send("Unauthorize")
         res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Headers",
